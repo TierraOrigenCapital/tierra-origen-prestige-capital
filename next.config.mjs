@@ -1,8 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Smaller chunks can load faster and avoid timeout on first load
+  images: {
+    remotePatterns: [
+      { protocol: "https", hostname: "images.unsplash.com", pathname: "/**" },
+    ],
+  },
   experimental: {
-    optimizePackageImports: ['@wix/sdk', '@wix/data'],
+    optimizePackageImports: ["@wix/sdk", "@wix/data"],
   },
 };
 

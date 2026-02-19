@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
 import "./globals.css";
+import { LanguageProvider } from "@/contexts/LanguageContext";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 
@@ -23,9 +24,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={dmSans.variable}>
       <body className="min-h-screen bg-[var(--background)] font-sans antialiased text-[var(--foreground)]">
-        <Header />
-        <main className="min-h-[calc(100vh-80px)]">{children}</main>
-        <Footer />
+        <LanguageProvider>
+          <Header />
+          <main className="min-h-[calc(100vh-80px)]">{children}</main>
+          <Footer />
+        </LanguageProvider>
       </body>
     </html>
   );

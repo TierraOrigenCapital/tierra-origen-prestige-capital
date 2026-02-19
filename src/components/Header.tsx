@@ -3,18 +3,20 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
-const nav = [
-  { label: "Home", href: "/" },
-  { label: "Full Ownership", href: "/full-ownership" },
-  { label: "Fractional", href: "/fractional" },
-  { label: "Apply", href: "/signup" },
-  { label: "Dashboard", href: "/dashboard" },
+const navItems = [
+  { key: "home", href: "/" },
+  { key: "fullOwnership", href: "/full-ownership" },
+  { key: "fractional", href: "/fractional" },
+  { key: "apply", href: "/signup" },
+  { key: "dashboard", href: "/dashboard" },
 ];
 
 export function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const { lang, setLang, t } = useLanguage();
 
   return (
     <header className="sticky top-0 z-50 glass border-b border-slate-200/80 shadow-soft">
@@ -26,8 +28,34 @@ export function Header() {
           Tierra Origen Prestige Capital
         </Link>
 
+        <div className="flex items-center gap-4">
+        <div className="flex items-center rounded-lg border border-slate-200/80 bg-white/80 p-0.5">
+          <button
+            type="button"
+            onClick={() => setLang("en")}
+            className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
+              lang === "en" ? "bg-[var(--accent)] text-white" : "text-slate-600 hover:bg-slate-100"
+            }`}
+            aria-label="English"
+            aria-pressed={lang === "en"}
+          >
+            EN <span aria-hidden>🇺🇸</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setLang("es")}
+            className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
+              lang === "es" ? "bg-[var(--accent)] text-white" : "text-slate-600 hover:bg-slate-100"
+            }`}
+            aria-label="Español"
+            aria-pressed={lang === "es"}
+          >
+            ES <span aria-hidden>🇪🇸</span>
+          </button>
+        </div>
+
         <nav className="hidden md:flex items-center gap-6">
-          {nav.map((item) => (
+          {navItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
@@ -37,10 +65,11 @@ export function Header() {
                   : "text-slate-600 hover:text-slate-900"
               }`}
             >
-              {item.label}
+              {t(`nav.${item.key}`)}
             </Link>
           ))}
         </nav>
+        </div>
 
         <button
           type="button"
@@ -60,7 +89,7 @@ export function Header() {
 
       {open && (
         <div className="md:hidden border-t border-slate-200/80 bg-white/95 backdrop-blur-lg px-4 py-3 flex flex-col gap-2">
-          {nav.map((item) => (
+          {navItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
@@ -69,7 +98,7 @@ export function Header() {
               }`}
               onClick={() => setOpen(false)}
             >
-              {item.label}
+              {t(`nav.${item.key}`)}
             </Link>
           ))}
         </div>

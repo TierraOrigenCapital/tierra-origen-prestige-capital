@@ -46,6 +46,13 @@ body {
   .shadow-soft {
     box-shadow: var(--shadow-soft);
   }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 /* Fractional calculator range slider - cross-browser */
@@ -62,6 +69,25 @@ body {
   cursor: grabbing;
 }
 .fractional-slider::-moz-range-track {
+  height: 0.625rem;
+  border-radius: 9999px;
+  background: #e2e8f0;
+}
+
+/* Full ownership calculator slider */
+.ownership-slider::-moz-range-thumb {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  border: 4px solid white;
+  background: var(--accent);
+  cursor: grab;
+  box-shadow: 0 4px 14px rgba(13, 148, 136, 0.4);
+}
+.ownership-slider::-moz-range-thumb:active {
+  cursor: grabbing;
+}
+.ownership-slider::-moz-range-track {
   height: 0.625rem;
   border-radius: 9999px;
   background: #e2e8f0;
