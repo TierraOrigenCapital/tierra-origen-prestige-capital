@@ -47,3 +47,22 @@ body {
     box-shadow: var(--shadow-soft);
   }
 }
+
+/* Fractional calculator range slider - cross-browser */
+.fractional-slider::-moz-range-thumb {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  border: 4px solid white;
+  background: var(--gold);
+  cursor: grab;
+  box-shadow: 0 4px 14px rgba(217, 119, 6, 0.4);
+}
+.fractional-slider::-moz-range-thumb:active {
+  cursor: grabbing;
+}
+.fractional-slider::-moz-range-track {
+  height: 0.625rem;
+  border-radius: 9999px;
+  background: #e2e8f0;
+}

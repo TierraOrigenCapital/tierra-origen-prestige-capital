@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { FractionalCalculator } from "@/components/FractionalCalculator";
 
 export const metadata = {
   title: "Fractional Property Investment – For Colombians in Process | Tierra Origen Prestige Capital",
@@ -31,18 +32,21 @@ export default function FractionalPage() {
       </section>
 
       <section className="border-t border-slate-200/80 bg-white/50 py-16 px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-3xl">
+        <div className="mx-auto max-w-5xl">
           <h2 className="text-2xl font-bold text-slate-900">How It Works</h2>
-          <ul className="mt-6 space-y-3">
-            {howItWorks.map((item) => (
-              <li key={item} className="flex items-center gap-3 rounded-xl bg-white px-4 py-3 shadow-soft border border-slate-100">
-                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[var(--gold-light)]">
-                  <span className="h-2 w-2 rounded-full bg-[var(--gold)]" />
-                </span>
-                <span className="text-slate-700">{item}</span>
-              </li>
-            ))}
-          </ul>
+          <div className="mt-8 grid gap-8 lg:grid-cols-2">
+            <ul className="space-y-3">
+              {howItWorks.map((item) => (
+                <li key={item} className="flex items-center gap-3 rounded-xl bg-white px-4 py-3 shadow-soft border border-slate-100">
+                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[var(--gold-light)]">
+                    <span className="h-2 w-2 rounded-full bg-[var(--gold)]" />
+                  </span>
+                  <span className="text-slate-700">{item}</span>
+                </li>
+              ))}
+            </ul>
+            <FractionalCalculator />
+          </div>
         </div>
       </section>
 
