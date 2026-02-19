@@ -1,5 +1,6 @@
 "use client";
 
+// Residency status option: "In Process of Legalization" (not "Without papers")
 import { useState, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
