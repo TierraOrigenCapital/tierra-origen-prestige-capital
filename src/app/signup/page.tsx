@@ -124,7 +124,7 @@ function SignupForm() {
                   className="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2 shadow-sm focus:border-[var(--accent)] focus:outline-none focus:ring-1 focus:ring-[var(--accent)]"
                 >
                   <option value="legal">Legal resident in Spain</option>
-                  <option value="in_process">In process / Without papers</option>
+                  <option value="in_process">In Process of Legalization</option>
                 </select>
               </div>
             </>

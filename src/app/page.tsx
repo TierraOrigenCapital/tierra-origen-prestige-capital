@@ -27,7 +27,7 @@ export default function Home() {
               href="/fractional"
               className="inline-flex items-center justify-center rounded-xl border-2 border-[var(--accent)] bg-white px-6 py-3.5 text-base font-semibold text-[var(--accent)] hover:bg-[var(--accent-light)] transition-colors"
             >
-              I Am in Process / Without Papers
+              I Am in Process of Legalization
             </Link>
           </div>
         </div>
