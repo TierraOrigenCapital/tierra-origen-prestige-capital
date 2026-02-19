@@ -27,7 +27,7 @@ const LanguageContext = createContext<LanguageContextType | null>(null);
 const STORAGE_KEY = "tierra-origen-lang";
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [lang, setLangState] = useState<Lang>("en");
+  const [lang, setLangState] = useState<Lang>("es");
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -46,7 +46,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   // Avoid hydration mismatch: render EN until mounted, then use stored/lang
-  const effectiveLang = mounted ? lang : "en";
+  const effectiveLang = mounted ? lang : "es";
 
   const t = useCallback(
     (path: string) => getNested(translations[effectiveLang] as unknown as Record<string, unknown>, path),

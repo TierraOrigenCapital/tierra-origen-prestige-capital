@@ -32,17 +32,6 @@ export function Header() {
         <div className="flex items-center rounded-lg border border-slate-200/80 bg-white/80 p-0.5">
           <button
             type="button"
-            onClick={() => setLang("en")}
-            className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
-              lang === "en" ? "bg-[var(--accent)] text-white" : "text-slate-600 hover:bg-slate-100"
-            }`}
-            aria-label="English"
-            aria-pressed={lang === "en"}
-          >
-            EN <span aria-hidden>🇺🇸</span>
-          </button>
-          <button
-            type="button"
             onClick={() => setLang("es")}
             className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
               lang === "es" ? "bg-[var(--accent)] text-white" : "text-slate-600 hover:bg-slate-100"
@@ -51,6 +40,17 @@ export function Header() {
             aria-pressed={lang === "es"}
           >
             ES <span aria-hidden>🇪🇸</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setLang("en")}
+            className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
+              lang === "en" ? "bg-[var(--accent)] text-white" : "text-slate-600 hover:bg-slate-100"
+            }`}
+            aria-label="English"
+            aria-pressed={lang === "en"}
+          >
+            EN <span aria-hidden>🇺🇸</span>
           </button>
         </div>
 
