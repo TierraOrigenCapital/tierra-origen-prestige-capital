@@ -34,6 +34,9 @@ function SignupForm() {
       setStep(step + 1);
       return;
     }
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem("tierra_has_applied", "1");
+    }
     setSubmitted(true);
   };
 

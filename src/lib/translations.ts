@@ -144,6 +144,11 @@ export const translations = {
     dashboard: {
       title: "Investor Dashboard",
       subtitle: "Overview of your investments and pending actions.",
+      emptyTitle: "Your Investor Panel Awaits",
+      emptySub: "Apply once to unlock your personal dashboard—track investments, documents, income, and more.",
+      emptyCta: "Start your application",
+      emptyCtaSub: "Unlock full access in minutes",
+      lockedLabel: "Apply to unlock",
       pendingTitle: "Pending approval",
       pendingDesc: "Your inquiry is under review. We will notify you once approved.",
       overview: "Investment overview",
@@ -307,6 +312,11 @@ export const translations = {
     dashboard: {
       title: "Panel del inversor",
       subtitle: "Resumen de tus inversiones y acciones pendientes.",
+      emptyTitle: "Tu panel de inversor te espera",
+      emptySub: "Aplica una vez para desbloquear tu panel personal: inversiones, documentos, ingresos y más.",
+      emptyCta: "Iniciar tu solicitud",
+      emptyCtaSub: "Desbloquea el acceso en minutos",
+      lockedLabel: "Aplica para desbloquear",
       pendingTitle: "Pendiente de aprobación",
       pendingDesc: "Tu consulta está en revisión. Te notificaremos cuando sea aprobada.",
       overview: "Resumen de inversión",
