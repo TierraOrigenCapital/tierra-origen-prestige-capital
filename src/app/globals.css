@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #fafbfc;
+  --foreground: #0f172a;
+  --card: #ffffff;
+  --muted: #64748b;
+  --accent: #0d9488;
+  --accent-light: #ccfbf1;
+  --accent-shadow: rgba(13, 148, 136, 0.25);
+  --gold: #d97706;
+  --gold-light: #fef3c7;
+  --gold-shadow: rgba(217, 119, 6, 0.2);
+  --blue: #2563eb;
+  --blue-light: #dbeafe;
+  --blue-shadow: rgba(37, 99, 235, 0.2);
+  --blur-bg: rgba(255, 255, 255, 0.7);
+  --shadow-colored: 0 25px 50px -12px var(--accent-shadow);
+  --shadow-gold: 0 25px 50px -12px var(--gold-shadow);
+  --shadow-soft: 0 4px 24px -4px rgba(0, 0, 0, 0.06);
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-feature-settings: "rlig" 1, "calt" 1;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .glass {
+    background: var(--blur-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  .shadow-colored {
+    box-shadow: var(--shadow-colored);
+  }
+  .shadow-gold {
+    box-shadow: var(--shadow-gold);
+  }
+  .shadow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+}
