@@ -69,6 +69,8 @@ function SignupForm() {
     email: "",
     phone: "",
     countryOfOrigin: "Colombia",
+    password: "",
+    confirmPassword: "",
   });
 
   const totalSteps = 4;
@@ -81,23 +83,57 @@ function SignupForm() {
     if (step > 1) setStep(step - 1);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (step < totalSteps) {
       handleNext();
       return;
     }
-    if (typeof window !== "undefined") {
-      sessionStorage.setItem(APPLIED_KEY, "1");
+    if (form.password !== form.confirmPassword || form.password.length < 8) return;
+    setIsSubmitting(true);
+    setSubmitError(null);
+    try {
+      const res = await fetch("/api/apply", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fullName: form.fullName,
+          email: form.email,
+          phone: form.phone,
+          countryOfOrigin: form.countryOfOrigin,
+          password: form.password,
+          residency: form.residency,
+          investmentType: form.investmentType,
+          budgetRange: form.budgetRange,
+          depositReady: form.depositReady,
+          shareRange: form.shareRange,
+          riskProfile: form.riskProfile,
+        }),
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.message || "Could not submit application");
+      }
+      if (typeof window !== "undefined") {
+        sessionStorage.setItem(APPLIED_KEY, "1");
+      }
+      setShowConfirm(true);
+    } catch (err) {
+      setSubmitError(err instanceof Error ? err.message : "Something went wrong");
+    } finally {
+      setIsSubmitting(false);
     }
-    setShowConfirm(true);
   };
 
+  const passwordMatch = form.password === form.confirmPassword && form.password.length >= 8;
   const canProceed =
     (step === 1 && form.residency) ||
     (step === 2 && form.investmentType) ||
     (step === 3) ||
-    (step === 4 && form.fullName && form.email);
+    (step === 4 && form.fullName && form.email && passwordMatch);
 
   if (showConfirm) {
     return (
@@ -133,12 +169,18 @@ function SignupForm() {
             )}
           </div>
           <p className="mt-4 text-xs text-slate-500 text-center">{t("signup.confirmNext")}</p>
-          <Link
-            href="/dashboard"
-            className="mt-6 flex w-full items-center justify-center rounded-xl bg-[var(--success)] px-6 py-3.5 font-semibold text-white shadow-success hover:opacity-95 transition-opacity"
-          >
-            {t("signup.goToPanel")}
-          </Link>
+          <p className="mt-2 text-sm font-medium text-slate-700 text-center">{t("signup.confirmLoginHint")}</p>
+          <div className="mt-6 flex flex-col gap-3">
+            <Link
+              href="/dashboard"
+              className="flex w-full items-center justify-center rounded-xl bg-[var(--success)] px-6 py-3.5 font-semibold text-white shadow-success hover:opacity-95 transition-opacity"
+            >
+              {t("signup.goToPanel")}
+            </Link>
+            <Link href="/login" className="text-center text-sm text-slate-600 hover:text-[var(--accent)]">
+              Already have an account? Log in
+            </Link>
+          </div>
         </div>
       </div>
     );
@@ -254,20 +296,28 @@ function SignupForm() {
 
             {step === 4 && (
               <div className="space-y-6 animate-slide-in">
+                <div className="rounded-2xl border-2 border-[var(--accent)]/20 bg-[var(--accent-light)]/20 p-5">
+                  <h3 className="font-bold text-slate-900">{t("signup.accountBoxTitle")}</h3>
+                  <p className="mt-2 text-sm text-slate-600">{t("signup.accountBoxDesc")}</p>
+                </div>
                 <p className="text-slate-600">{t("signup.detailsSub")}</p>
                 <div><label className="block text-sm font-medium text-slate-700">{t("signup.fullName")}</label><input type="text" required value={form.fullName} onChange={(e) => setForm({ ...form, fullName: e.target.value })} className="mt-2 block w-full rounded-xl border border-slate-300 px-4 py-3 shadow-sm focus:border-[var(--accent)] focus:outline-none focus:ring-1 focus:ring-[var(--accent)]" /></div>
                 <div><label className="block text-sm font-medium text-slate-700">{t("signup.email")}</label><input type="email" required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className="mt-2 block w-full rounded-xl border border-slate-300 px-4 py-3 shadow-sm focus:border-[var(--accent)] focus:outline-none focus:ring-1 focus:ring-[var(--accent)]" /></div>
                 <div><label className="block text-sm font-medium text-slate-700">{t("signup.phone")}</label><input type="tel" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} className="mt-2 block w-full rounded-xl border border-slate-300 px-4 py-3 shadow-sm focus:border-[var(--accent)] focus:outline-none focus:ring-1 focus:ring-[var(--accent)]" /></div>
                 <div><label className="block text-sm font-medium text-slate-700">{t("signup.countryOfOrigin")}</label><input type="text" value={form.countryOfOrigin} onChange={(e) => setForm({ ...form, countryOfOrigin: e.target.value })} className="mt-2 block w-full rounded-xl border border-slate-300 px-4 py-3 shadow-sm focus:border-[var(--accent)] focus:outline-none focus:ring-1 focus:ring-[var(--accent)]" /></div>
+                <div><label className="block text-sm font-medium text-slate-700">{t("signup.password")}</label><input type="password" required minLength={8} value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} placeholder={t("signup.passwordPlaceholder")} className="mt-2 block w-full rounded-xl border border-slate-300 px-4 py-3 shadow-sm focus:border-[var(--accent)] focus:outline-none focus:ring-1 focus:ring-[var(--accent)]" /></div>
+                <div><label className="block text-sm font-medium text-slate-700">{t("signup.confirmPassword")}</label><input type="password" required minLength={8} value={form.confirmPassword} onChange={(e) => setForm({ ...form, confirmPassword: e.target.value })} placeholder={t("signup.confirmPasswordPlaceholder")} className={`mt-2 block w-full rounded-xl border px-4 py-3 shadow-sm focus:outline-none focus:ring-1 ${form.confirmPassword && form.password !== form.confirmPassword ? "border-red-400 focus:border-red-500 focus:ring-red-500" : "border-slate-300 focus:border-[var(--accent)] focus:ring-[var(--accent)]"}`} /></div>
+                {form.confirmPassword && form.password !== form.confirmPassword && <p className="text-sm text-red-600">{t("signup.passwordMismatch")}</p>}
                 <div className="rounded-xl bg-slate-50 p-4 text-sm text-slate-600">{t("signup.kycNote")}</div>
+                {submitError && <p className="text-sm text-red-600">{submitError}</p>}
               </div>
             )}
           </div>
 
           <div className="flex gap-4 pt-4">
             {step > 1 && <button type="button" onClick={handleBack} className="rounded-xl border border-slate-300 px-6 py-2.5 font-medium text-slate-700 hover:bg-slate-50 transition-colors">{t("signup.back")}</button>}
-            <button type="submit" disabled={!canProceed} className="rounded-xl bg-[var(--accent)] px-6 py-2.5 font-semibold text-white shadow-colored hover:opacity-95 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity">
-              {step < totalSteps ? t("signup.continue") : t("signup.submit")}
+            <button type="submit" disabled={!canProceed || isSubmitting} className="rounded-xl bg-[var(--accent)] px-6 py-2.5 font-semibold text-white shadow-colored hover:opacity-95 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity">
+              {isSubmitting ? "..." : step < totalSteps ? t("signup.continue") : t("signup.submit")}
             </button>
           </div>
         </form>

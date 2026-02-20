@@ -11,6 +11,7 @@
   "dependencies": {
     "@wix/data": "^1.0.398",
     "@wix/sdk": "^1.21.3",
+    "bcryptjs": "^3.0.3",
     "next": "14.2.35",
     "react": "^18",
     "react-dom": "^18"
