@@ -4,6 +4,8 @@ import { useState, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { FullOwnershipCalculator } from "@/components/FullOwnershipCalculator";
+import { FractionalSignupPreview } from "@/components/FractionalSignupPreview";
 
 const APPLIED_KEY = "tierra_has_applied";
 
@@ -165,7 +167,7 @@ function SignupForm() {
         </p>
 
         <form onSubmit={handleSubmit} className="mt-8">
-          <div className="min-h-[280px]">
+          <div>
             {step === 1 && (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 animate-slide-in">
                 <OptionCard
@@ -206,6 +208,10 @@ function SignupForm() {
 
             {step === 3 && form.investmentType === "full" && (
               <div className="space-y-6 animate-slide-in">
+                <div className="rounded-2xl border border-slate-200/80 bg-white p-4 shadow-soft">
+                  <p className="text-sm font-medium text-slate-600 mb-4">{t("signup.fullPathCalcSub")}</p>
+                  <FullOwnershipCalculator />
+                </div>
                 <div>
                   <label className="block text-sm font-medium text-slate-700">{t("signup.fullPathBudget")}</label>
                   <input type="text" placeholder={t("signup.budgetPlaceholder")} value={form.budgetRange} onChange={(e) => setForm({ ...form, budgetRange: e.target.value })} className="mt-2 block w-full rounded-xl border border-slate-300 px-4 py-3 shadow-sm focus:border-[var(--accent)] focus:outline-none focus:ring-1 focus:ring-[var(--accent)]" />
@@ -219,9 +225,13 @@ function SignupForm() {
 
             {step === 3 && form.investmentType === "fractional" && (
               <div className="space-y-6 animate-slide-in">
+                <div className="rounded-2xl border border-slate-200/80 bg-white p-4 shadow-soft">
+                  <p className="text-sm font-medium text-slate-600 mb-4">{t("signup.fracPathCalcSub")}</p>
+                  <FractionalSignupPreview shareRange={form.shareRange} onShareChange={(v) => setForm({ ...form, shareRange: v })} />
+                </div>
                 <div>
                   <label className="block text-sm font-medium text-slate-700">{t("signup.fracPathBudget")}</label>
-                  <input type="text" placeholder={t("signup.budgetPlaceholder")} value={form.budgetRange} onChange={(e) => setForm({ ...form, budgetRange: e.target.value })} className="mt-2 block w-full rounded-xl border border-slate-300 px-4 py-3 shadow-sm focus:border-[var(--accent)] focus:outline-none focus:ring-1 focus:ring-[var(--accent)]" />
+                  <input type="text" placeholder={t("signup.budgetPlaceholderFrac")} value={form.budgetRange} onChange={(e) => setForm({ ...form, budgetRange: e.target.value })} className="mt-2 block w-full rounded-xl border border-slate-300 px-4 py-3 shadow-sm focus:border-[var(--accent)] focus:outline-none focus:ring-1 focus:ring-[var(--accent)]" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-slate-700">{t("signup.fracPathShare")}</label>
@@ -254,7 +264,7 @@ function SignupForm() {
             )}
           </div>
 
-          <div className="flex gap-4 pt-8">
+          <div className="flex gap-4 pt-4">
             {step > 1 && <button type="button" onClick={handleBack} className="rounded-xl border border-slate-300 px-6 py-2.5 font-medium text-slate-700 hover:bg-slate-50 transition-colors">{t("signup.back")}</button>}
             <button type="submit" disabled={!canProceed} className="rounded-xl bg-[var(--accent)] px-6 py-2.5 font-semibold text-white shadow-colored hover:opacity-95 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity">
               {step < totalSteps ? t("signup.continue") : t("signup.submit")}
